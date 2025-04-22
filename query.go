@@ -6,18 +6,18 @@ import (
 	"os/exec"
 )
 
-func executeDigQuery(registrar, domain string) bytes.Buffer {
+func executeDigQuery(registrar, domain string) (res bytes.Buffer, err error) {
 	var out bytes.Buffer
 
 	cmd := exec.Command("dig", "+short", "@"+registrar, domain)
 	cmd.Stdout = &out
 
-	err := cmd.Run()
+	err = cmd.Run()
 	if err != nil {
 		log.Printf("Error executing dig for %s: %v", domain, err)
-		return out
+		return out, err
 	}
 
-	return out
+	return out, nil
 
 }
