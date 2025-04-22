@@ -16,28 +16,15 @@ var domainList = []string{"1.1.1.1", "8.8.8.8"}
 
 func main() {
 	router := gin.Default()
-	router.GET("/google", getDnsForGoogle)
 	router.GET("/domain", getRecordForDomain)
 
 	router.Run(":8080")
 }
 
-func getDnsForGoogle(c *gin.Context) {
-	var results []domainResult
-
-	for _, domain := range domainList {
-		buf := executeDigQuery(domain, "google.com")
-
-		results = append(results, domainResult{
-			Registrar: domain,
-			Record:    strings.Split(buf.String(), "\n"),
-		})
-	}
-	c.JSON(http.StatusOK, results)
-}
-
 func getRecordForDomain(c *gin.Context) {
 	domain, present := c.GetQuery("domain")
+	returnCode := http.StatusOK
+
 	var results []domainResult
 
 	if !present {
@@ -46,14 +33,23 @@ func getRecordForDomain(c *gin.Context) {
 	}
 
 	for _, registrar := range domainList {
-		buf := executeDigQuery(registrar, domain)
+		buf, err := executeDigQuery(registrar, domain)
 		record := strings.Fields(buf.String())
+
+		if err != nil {
+			results = append(results, domainResult{
+				Registrar: "error",
+				Record:    []string{"Domain: " + registrar, err.Error()},
+			})
+			returnCode = http.StatusInternalServerError
+			continue
+		}
 
 		results = append(results, domainResult{
 			Registrar: registrar,
 			Record:    record,
 		})
 	}
-	c.JSON(http.StatusOK, results)
+	c.JSON(returnCode, results)
 
 }
