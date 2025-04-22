@@ -47,10 +47,11 @@ func getRecordForDomain(c *gin.Context) {
 
 	for _, registrar := range domainList {
 		buf := executeDigQuery(registrar, domain)
+		record := strings.Fields(buf.String())
 
 		results = append(results, domainResult{
 			Registrar: registrar,
-			Record:    strings.Split(buf.String(), "\n"),
+			Record:    record,
 		})
 	}
 	c.JSON(http.StatusOK, results)
