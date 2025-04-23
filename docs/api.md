@@ -5,8 +5,8 @@ While every care will be taken to avoid breaking changes, early in development t
 
 # endpoints
 
-### /search
-a basic search endpoint, use primarily for testing and development.
+### /v1/domain/a
+a basic search endpoint, returns the A (IPv4) records for a given domain.
 
 it will search all DNS providers for the specified domain, and return the A records as the result
 
