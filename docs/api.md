@@ -38,3 +38,85 @@ array of object with each object a single query to a DNS registrar
   }
 ]
 ```
+
+### /v1/domain/a
+a basic search endpoint, returns the AAAA (IPv6) records for a given domain.
+
+it will search all DNS providers for the specified domain, and return any AAAA records in the result
+
+#### inputs
+
+Path params (Req)
+
+|name| type | example |
+|----|------|---------|
+address | string | google.com
+
+#### output
+
+array of object with each object a single query to a DNS registrar
+
+```json
+[
+  {
+    "registrar": "1.1.1.1",
+    "record": [
+      "2606:4700:3030::6815:3001",
+      "2606:4700:3030::6815:7001",
+      "2606:4700:3030::6815:1001",
+      "2606:4700:3030::6815:5001",
+      "2606:4700:3030::6815:2001",
+      "2606:4700:3030::6815:6001",
+      "2606:4700:3030::6815:4001"
+    ]
+  },
+  {
+    "registrar": "8.8.8.8",
+    "record": [
+      "2606:4700:3030::6815:1001",
+      "2606:4700:3030::6815:4001",
+      "2606:4700:3030::6815:7001",
+      "2606:4700:3030::6815:5001",
+      "2606:4700:3030::6815:2001",
+      "2606:4700:3030::6815:3001",
+      "2606:4700:3030::6815:6001"
+    ]
+  }
+]
+```
+
+### /v1/domain/ns
+a basic search endpoint, returns the NS (NameServer) records for a given domain.
+
+it will search all DNS providers for the specified domain, and return the found records as the result
+
+#### inputs
+
+Path params (Req)
+
+|name| type | example |
+|----|------|---------|
+address | string | google.com
+
+#### output
+
+array of object with each object a single query to a DNS registrar
+
+```json
+[
+  {
+    "registrar": "1.1.1.1",
+    "record": [
+      "ns2.siteground.net.",
+      "ns1.siteground.net."
+    ]
+  },
+  {
+    "registrar": "8.8.8.8",
+    "record": [
+      "ns2.siteground.net.",
+      "ns1.siteground.net."
+    ]
+  }
+]
+```
