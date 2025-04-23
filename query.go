@@ -4,12 +4,15 @@ import (
 	"bytes"
 	"log"
 	"os/exec"
+	"strings"
 )
 
-func executeDigQuery(registrar, domain string) (res bytes.Buffer, err error) {
+
+func executeDigQuery(registrar, domain, recordType string) (res bytes.Buffer, err error) {
 	var out bytes.Buffer
 
-	cmd := exec.Command("dig", "+short", "@"+registrar, domain)
+
+	cmd := exec.Command("dig", "+short", "@"+registrar, domain, recordType)
 	cmd.Stdout = &out
 
 	err = cmd.Run()
@@ -20,4 +23,15 @@ func executeDigQuery(registrar, domain string) (res bytes.Buffer, err error) {
 
 	return out, nil
 
+}
+
+func ExecuteARecordQuery(registrar, domain string) []string {
+	var results []string
+	var buf bytes.Buffer
+
+	buf, _ = executeDigQuery(registrar, domain, "A")
+
+	results = strings.Fields(buf.String())
+
+	return results
 }
