@@ -1,4 +1,4 @@
-package main
+package commands
 
 import (
 	"bytes"
@@ -30,6 +30,28 @@ func ExecuteARecordQuery(registrar, domain string) []string {
 	var buf bytes.Buffer
 
 	buf, _ = executeDigQuery(registrar, domain, "A")
+
+	results = strings.Fields(buf.String())
+
+	return results
+}
+
+func ExecuteAAAARecordQuery(registrar, domain string) []string {
+	var results []string
+	var buf bytes.Buffer
+
+	buf, _ = executeDigQuery(registrar, domain, "AAAA")
+
+	results = strings.Fields(buf.String())
+
+	return results
+}
+
+func ExecuteNSRecordQuery(registrar, domain string) []string {
+	var results []string
+	var buf bytes.Buffer
+
+	buf, _ = executeDigQuery(registrar, domain, "NS")
 
 	results = strings.Fields(buf.String())
 
