@@ -16,7 +16,7 @@ Path params (Req)
 
 |name| type | example |
 |----|------|---------|
-domain | string | google.com
+address | string | google.com
 
 #### output
 
