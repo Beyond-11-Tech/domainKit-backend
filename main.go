@@ -20,11 +20,12 @@ var systemFlags systemFlag
 var domainList = []string{"1.1.1.1", "8.8.8.8"}
 
 func init() {
-	flag.StringVar(&systemFlags.webKey, "webKey", "", "web authentication key, used to give basic auth permissions to the web API")
+	flag.StringVar(&systemFlags.webKey, "webKey", "", "web authentication key, used to give basic auth permissions to the API")
+	flag.StringVar(&systemFlags.appKey, "appKey", "", "app authentication key, used to give basic auth permissions to the API")
 	flag.Parse()
 
-	if systemFlags.webKey == "" {
-		panic("flag 'webKey' is missing, please enter and run again")
+	if systemFlags.webKey == "" || systemFlags.appKey == "" {
+		panic("missing required flags, please add 'appKey' and 'webKey' and run again")
 	}
 }
 
