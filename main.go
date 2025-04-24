@@ -4,19 +4,35 @@ import (
 	"b11/domainKit/commands"
 	"b11/domainKit/middlewares"
 	"b11/domainKit/structs"
+	"flag"
 	"net/http"
 
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
 )
 
+type systemFlag struct {
+	webKey string
+	appKey string
+}
+
+var systemFlags systemFlag
 var domainList = []string{"1.1.1.1", "8.8.8.8"}
+
+func init() {
+	flag.StringVar(&systemFlags.webKey, "webKey", "", "web authentication key, used to give basic auth permissions to the web API")
+	flag.Parse()
+
+	if systemFlags.webKey == "" {
+		panic("flag 'webKey' is missing, please enter and run again")
+	}
+}
 
 func main() {
 	router := gin.Default()
 
 	v1 := router.Group("/v1")
-	domain := v1.Group("/domain")
+	domain := v1.Group("/domain", gin.BasicAuth(gin.Accounts{"web": systemFlags.webKey, "app": systemFlags.appKey}))
 	domain.Use(middlewares.ValidateParams())
 	domain.GET("/a", getARecordForAddress)
 	domain.GET("/aaaa", getAAAARecordForAddress)
