@@ -3,6 +3,11 @@ this doc is to serve as a living document for local development explaining the a
 
 While every care will be taken to avoid breaking changes, early in development there will be changes that could be breaking, so checking here for updates will be the recommended action.
 
+# authentication
+the app uses basic auth for all endpoints currently. the password of which will be set when the app starts (in prod that means having a shared secret across the repos). the username will be `web` for the web user, and `app` for the app user.
+
+there is currently no endpoint to sign in, so the basic auth is to be sent as part of the headers in every request
+
 # endpoints
 
 ### /v1/domain/a

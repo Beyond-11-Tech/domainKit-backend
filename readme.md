@@ -15,6 +15,8 @@ once installed running `go mod tidy` will install all required dependencies
 once the deps are installed, the app can then be developed and once ready, ran locally. this is done by using the command `go run .`. the app does **not** have hot reloading, so once a change is made, you will need to stop the app and restart it using the same command.
 
 ## build steps
-to build the app for distribution, you will want to run the command `go build`
+to build the app for distribution, you will want to run the command `go build .`
 
 this will build the app using the system default environments of the OS so for now make sure the os matches the build destination (this will be fixed in a future update)
+
+the application needs the flags `webKey` & `appKey` to be passed accepted passwords for the web app and mobile app to use to authenticate with the API server, they can be passed to the app in the same way other flags from other apps are passed.
