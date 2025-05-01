@@ -38,9 +38,14 @@ func main() {
 	domain.GET("/a", getARecordForAddress)
 	domain.GET("/aaaa", getAAAARecordForAddress)
 	domain.GET("/ns", getNSRecordForAddress)
-	domain.GET("/txt")
+	domain.GET("/srv", notAvailableYet)
+	domain.GET("/txt", notAvailableYet)
 
 	endless.ListenAndServe(":8080", router)
+}
+
+func notAvailableYet(c *gin.Context) {
+	c.String(http.StatusTeapot, "im still brewing")
 }
 
 func getARecordForAddress(c *gin.Context) {
