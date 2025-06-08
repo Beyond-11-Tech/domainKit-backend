@@ -13,8 +13,8 @@ COPY --from=builder /app/main ./
 ARG APP_KEY
 ARG WEB_KEY
 
-ENV appKey $APP_KEY
-ENV webKey $WEB_KEY
+ENV appKey ${APP_KEY}
+ENV webKey ${WEB_KEY}
 
 EXPOSE 8080
 ENTRYPOINT ./main -webKey=$webKey -appKey=$appKey
