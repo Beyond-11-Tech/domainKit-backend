@@ -23,4 +23,4 @@ ENV webKey=
 ENV appKey=
 
 EXPOSE 8080
-ENTRYPOINT [ "apikit", "-apiKey=${webKey}", "-appKey=${appKey}" ]
+ENTRYPOINT [ "apikit", "-apiKey=test", "-appKey=test" ]
