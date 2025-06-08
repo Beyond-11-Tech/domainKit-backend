@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: domainkit_app
     ports:
-      - "8080:8080"
+      - ":8080"
     volumes:
       - .:/app
     restart: always
