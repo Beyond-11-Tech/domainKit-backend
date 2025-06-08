@@ -17,4 +17,4 @@ ENV appKey=tttllll
 ENV apiKey=sssssss
 
 EXPOSE 8080
-ENTRYPOINT ./main -apiKey=${apiKey} -appKey=$appKey
+ENTRYPOINT ./main -apiKey=${APP_KEY} -appKey=$API_KEY
