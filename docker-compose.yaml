@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: domainkit_app
+    container_name: domainkit_api
     ports:
       - "8080"
     volumes:
