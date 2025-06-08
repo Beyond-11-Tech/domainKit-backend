@@ -13,7 +13,8 @@ COPY --from=builder /app/main ./
 ARG appKey
 ARG apiKey
 EXPOSE 8080
-ENTRYPOINT [ "./main", "-apiKey=${apiKey}", "-appKey=${appKey}" ]
+ENTRYPOINT [ "./main" ]
+CMD [ "-apiKey=${apiKey}", "-appKey=${appKey}" ]
 
 
 
