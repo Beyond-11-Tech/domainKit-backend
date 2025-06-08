@@ -33,6 +33,7 @@ func main() {
 	router := gin.Default()
 
 	v1 := router.Group("/v1")
+	v1.GET("/health", healthCheck)
 	domain := v1.Group("/domain", gin.BasicAuth(gin.Accounts{"web": systemFlags.webKey, "app": systemFlags.appKey}))
 	domain.Use(middlewares.ValidateParams())
 	domain.GET("/a", getARecordForAddress)
@@ -42,6 +43,10 @@ func main() {
 	domain.GET("/txt", notAvailableYet)
 
 	endless.ListenAndServe(":8080", router)
+}
+
+func healthCheck(c *gin.Context) {
+	c.String(http.StatusOK, "ok")
 }
 
 func notAvailableYet(c *gin.Context) {
