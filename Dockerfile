@@ -10,8 +10,8 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 COPY --from=builder /app/main ./
 
-ARG appKey
-ARG apiKey
+ENV appKey
+ENV apiKey
 EXPOSE 8080
 ENTRYPOINT [ "./main" ]
 CMD [ "-apiKey=${apiKey}", "-appKey=${appKey}" ]
