@@ -17,8 +17,7 @@ ENV appKey=${APP_KEY}
 ENV apiKey=${API_KEY}
 
 EXPOSE 8080
-ENTRYPOINT [ "./main" ]
-CMD [ "-apiKey=${apiKey}", "-appKey=${appKey}" ]
+ENTRYPOINT ./main -apiKey=$apiKey -appKey=$appKey
 
 
 
