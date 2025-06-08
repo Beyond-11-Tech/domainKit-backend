@@ -1,4 +1,4 @@
-FROM golang:1.24.2 as build
+FROM golang:1.24.2 AS build
 
 WORKDIR /app
 
@@ -11,16 +11,16 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o /app .
- 
-FROM alpine:latest as run
+RUN go build -o apikit .
+
+FROM alpine:latest AS run
+WORKDIR /app
 
 # Copy the application executable from the build image
-COPY --from=build /app /app
+COPY --from=build /app/apikit apikit
 
 ENV webKey=
 ENV appKey=
 
-WORKDIR /app
 EXPOSE 8080
-CMD /app -apiKey=${webKey} appKey=${appKey}
+ENTRYPOINT [ "apikit", "-apiKey=${webKey}", "-appKey=${appKey}" ]
