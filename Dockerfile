@@ -10,8 +10,8 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 COPY --from=builder /app/main ./
 
-ARG APP_KEY
-ARG API_KEY
+ARG APP_KEY=terst
+ARG API_KEY=test
 
 ENV appKey=${APP_KEY}
 ENV apiKey=${API_KEY}
