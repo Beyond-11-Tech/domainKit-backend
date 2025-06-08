@@ -9,8 +9,11 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 COPY --from=builder /app/main ./
+
+ARG appKey
+ARG apiKey
 EXPOSE 8080
-ENTRYPOINT [ "./main", "-apiKey", "test", "-appKey=test" ]
+ENTRYPOINT [ "./main", "-apiKey", "${apiKey}", "-appKey=${appKey}" ]
 
 
 
