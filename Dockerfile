@@ -13,8 +13,8 @@ COPY --from=builder /app/main ./
 ARG APP_KEY
 ARG API_KEY
 
-ENV appKey $APP_KEY
-ENV apiKey $API_KEY
+ENV appKey=${APP_KEY}
+ENV apiKey=${API_KEY}
 
 EXPOSE 8080
 ENTRYPOINT [ "./main" ]
