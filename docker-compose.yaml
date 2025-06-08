@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: domainkit_app
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    restart: always
+    environment:
+      APP_KEY: ${APP_KEY}
+      WEB_KEY: ${WEB_KEY}
