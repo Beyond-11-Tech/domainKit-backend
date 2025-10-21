@@ -37,6 +37,7 @@ func ValidateAuth(validKey []string) gin.HandlerFunc {
 			token := strings.Split(authData[0], " ")[1]
 			if token == item {
 				ctx.Next()
+				return
 			}
 		}
 
