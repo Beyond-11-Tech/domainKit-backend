@@ -7,8 +7,12 @@ import (
 	"flag"
 	"net/http"
 
+	docs "b11/domainKit/docs"
+
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type systemFlag struct {
@@ -27,13 +31,23 @@ func init() {
 	if systemFlags.webKey == "" || systemFlags.appKey == "" {
 		panic("missing required flags, please add 'appKey' and 'webKey' and run again")
 	}
+	//go:generate swag init
+	//go:generate ./...
+
 }
 
 func main() {
 	router := gin.Default()
+	docs.SwaggerInfo.Title="Domainkit API"
+	docs.SwaggerInfo.Description="The backend API for the B11 domainkit system"
+	docs.SwaggerInfo.Version="1.0"
+	docs.SwaggerInfo.BasePath = "/v1"
+	docs.SwaggerInfo.Host = "domainkit.choccobear.tech"
+	docs.SwaggerInfo.Schemes = []string{"https"}
 
 	v1 := router.Group("/v1")
 	v1.GET("/health", healthCheck)
+	v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	domain := v1.Group("/domain", gin.BasicAuth(gin.Accounts{"web": systemFlags.webKey, "app": systemFlags.appKey}))
 	domain.Use(middlewares.ValidateParams())
 	domain.GET("/a", getARecordForAddress)
@@ -53,6 +67,12 @@ func notAvailableYet(c *gin.Context) {
 	c.String(http.StatusTeapot, "im still brewing")
 }
 
+// @Tags Domains
+// @Router /domain/a [get]
+// @Summary get domain A records for given domain
+// @Param domain query string true "valid (sub)domain to query" minlength(4)
+// @Produce json
+// @Success 200 {array} structs.DomainResult
 func getARecordForAddress(c *gin.Context) {
 	returnCode := http.StatusOK
 	var results []structs.DomainResult
@@ -70,6 +90,12 @@ func getARecordForAddress(c *gin.Context) {
 	c.JSON(returnCode, results)
 }
 
+// @Tags Domains
+// @Router /domain/aaaa [get]
+// @Summary get domain AAAA (IPv6) records for given domain
+// @Param domain query string true "valid (sub)domain to query" minlength(4)
+// @Produce json
+// @Success 200 {array} structs.DomainResult
 func getAAAARecordForAddress(c *gin.Context) {
 	returnCode := http.StatusOK
 	var results []structs.DomainResult
@@ -87,6 +113,12 @@ func getAAAARecordForAddress(c *gin.Context) {
 	c.JSON(returnCode, results)
 }
 
+// @Tags Domains
+// @Router /domain/ns [get]
+// @Summary get NS records for given domain
+// @Param domain query string true "valid (sub)domain to query" minlength(4)
+// @Produce json
+// @Success 200 {array} structs.DomainResult
 func getNSRecordForAddress(c *gin.Context) {
 	returnCode := http.StatusOK
 	var results []structs.DomainResult

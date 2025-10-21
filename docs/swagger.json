@@ -1,0 +1,125 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/domain/a": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Domains"
+                ],
+                "summary": "get domain A records for given domain",
+                "parameters": [
+                    {
+                        "minLength": 4,
+                        "type": "string",
+                        "description": "valid (sub)domain to query",
+                        "name": "domain",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.DomainResult"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/domain/aaaa": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Domains"
+                ],
+                "summary": "get domain AAAA (IPv6) records for given domain",
+                "parameters": [
+                    {
+                        "minLength": 4,
+                        "type": "string",
+                        "description": "valid (sub)domain to query",
+                        "name": "domain",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.DomainResult"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/domain/ns": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Domains"
+                ],
+                "summary": "get NS records for given domain",
+                "parameters": [
+                    {
+                        "minLength": 4,
+                        "type": "string",
+                        "description": "valid (sub)domain to query",
+                        "name": "domain",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.DomainResult"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "structs.DomainResult": {
+            "type": "object",
+            "properties": {
+                "record": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "21.11.25.4",
+                        "1.54.23.6"
+                    ]
+                },
+                "registrar": {
+                    "type": "string",
+                    "example": "1.1.1.1"
+                }
+            }
+        }
+    }
+}

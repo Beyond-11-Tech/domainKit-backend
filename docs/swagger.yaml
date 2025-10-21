@@ -1,0 +1,81 @@
+definitions:
+  structs.DomainResult:
+    properties:
+      record:
+        example:
+        - 21.11.25.4
+        - 1.54.23.6
+        items:
+          type: string
+        type: array
+      registrar:
+        example: 1.1.1.1
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /domain/a:
+    get:
+      parameters:
+      - description: valid (sub)domain to query
+        in: query
+        minLength: 4
+        name: domain
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/structs.DomainResult'
+            type: array
+      summary: get domain A records for given domain
+      tags:
+      - Domains
+  /domain/aaaa:
+    get:
+      parameters:
+      - description: valid (sub)domain to query
+        in: query
+        minLength: 4
+        name: domain
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/structs.DomainResult'
+            type: array
+      summary: get domain AAAA (IPv6) records for given domain
+      tags:
+      - Domains
+  /domain/ns:
+    get:
+      parameters:
+      - description: valid (sub)domain to query
+        in: query
+        minLength: 4
+        name: domain
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/structs.DomainResult'
+            type: array
+      summary: get NS records for given domain
+      tags:
+      - Domains
+swagger: "2.0"
