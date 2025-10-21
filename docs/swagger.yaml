@@ -33,6 +33,8 @@ paths:
             items:
               $ref: '#/definitions/structs.DomainResult'
             type: array
+      security:
+      - BearerAuth: []
       summary: get domain A records for given domain
       tags:
       - Domains
@@ -54,6 +56,8 @@ paths:
             items:
               $ref: '#/definitions/structs.DomainResult'
             type: array
+      security:
+      - BearerAuth: []
       summary: get domain AAAA (IPv6) records for given domain
       tags:
       - Domains
@@ -78,4 +82,11 @@ paths:
       summary: get NS records for given domain
       tags:
       - Domains
+securityDefinitions:
+  BearerAuth:
+    description: 'Type "Bearer" followed by a space and your token. Example: "Bearer
+      {token}"'
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

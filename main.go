@@ -36,11 +36,16 @@ func init() {
 
 }
 
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Type "Bearer" followed by a space and your token. Example: "Bearer {token}"
 func main() {
 	router := gin.Default()
-	docs.SwaggerInfo.Title="Domainkit API"
-	docs.SwaggerInfo.Description="The backend API for the B11 domainkit system"
-	docs.SwaggerInfo.Version="1.0"
+
+	docs.SwaggerInfo.Title = "Domainkit API"
+	docs.SwaggerInfo.Description = "The backend API for the B11 domainkit system"
+	docs.SwaggerInfo.Version = "1.0"
 	docs.SwaggerInfo.BasePath = "/v1"
 	docs.SwaggerInfo.Host = "domainkit.choccobear.tech"
 	docs.SwaggerInfo.Schemes = []string{"https"}
@@ -48,8 +53,9 @@ func main() {
 	v1 := router.Group("/v1")
 	v1.GET("/health", healthCheck)
 	v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	domain := v1.Group("/domain", gin.BasicAuth(gin.Accounts{"web": systemFlags.webKey, "app": systemFlags.appKey}))
+	domain := v1.Group("/domain", middlewares.ValidateAuth([]string{systemFlags.webKey, systemFlags.appKey}))
 	domain.Use(middlewares.ValidateParams())
+
 	domain.GET("/a", getARecordForAddress)
 	domain.GET("/aaaa", getAAAARecordForAddress)
 	domain.GET("/ns", getNSRecordForAddress)
@@ -68,6 +74,7 @@ func notAvailableYet(c *gin.Context) {
 }
 
 // @Tags Domains
+// @Security BearerAuth
 // @Router /domain/a [get]
 // @Summary get domain A records for given domain
 // @Param domain query string true "valid (sub)domain to query" minlength(4)
@@ -91,6 +98,7 @@ func getARecordForAddress(c *gin.Context) {
 }
 
 // @Tags Domains
+// @Security BearerAuth
 // @Router /domain/aaaa [get]
 // @Summary get domain AAAA (IPv6) records for given domain
 // @Param domain query string true "valid (sub)domain to query" minlength(4)
