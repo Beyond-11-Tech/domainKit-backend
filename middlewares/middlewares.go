@@ -32,13 +32,15 @@ func ValidateParams() gin.HandlerFunc {
 func ValidateAuth(validKey []string) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		authData := ctx.Request.Header.Values("Authorization")
-
-		for _, item := range validKey {
-			token := strings.Split(authData[0], " ")[1]
-			if token == item {
-				ctx.Next()
-				return
+		if len(authData) > 0 && strings.Contains(authData[0], "Bearer") {
+			for _, item := range validKey {
+				token := strings.Split(authData[0], " ")[1]
+				if token == item {
+					ctx.Next()
+					return
+				}
 			}
+
 		}
 
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorised"})
