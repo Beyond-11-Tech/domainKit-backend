@@ -11,6 +11,6 @@ type DomainResult struct {
 }
 
 type TxtResult struct {
-	Registrar string   `json:"registrar"`
-	Value     []string `json:"value"`
+	Registrar string   `json:"registrar" example:"1.1.1.1"`
+	Value     []string `json:"value" example:"v=spf1 include:_spf.google.com ~all"`
 }

@@ -7,10 +7,8 @@ import (
 	"strings"
 )
 
-
 func executeDigQuery(registrar, domain, recordType string) (res bytes.Buffer, err error) {
 	var out bytes.Buffer
-
 
 	cmd := exec.Command("dig", "+short", "@"+registrar, domain, recordType)
 	cmd.Stdout = &out
@@ -58,14 +56,12 @@ func ExecuteNSRecordQuery(registrar, domain string) []string {
 	return results
 }
 
-
 func ExecuteTXTRecordQuery(registrar, domain string) []string {
 	var results []string
 	var buf bytes.Buffer
 
 	buf, _ = executeDigQuery(registrar, domain, "TXT")
 
-	results = strings.Fields(buf.String())
-
+	results = strings.Split(strings.TrimSpace(strings.ReplaceAll(buf.String(), "\"", "")), "\n")
 	return results
 }

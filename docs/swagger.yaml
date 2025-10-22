@@ -15,8 +15,11 @@ definitions:
   structs.TxtResult:
     properties:
       registrar:
+        example: 1.1.1.1
         type: string
       value:
+        example:
+        - v=spf1 include:_spf.google.com ~all
         items:
           type: string
         type: array
@@ -106,7 +109,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK" example([{"registrar":"1.1.1.1","value":["exampletext"]}])
+          description: OK
           schema:
             items:
               $ref: '#/definitions/structs.TxtResult'

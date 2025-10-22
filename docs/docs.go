@@ -152,7 +152,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK\" example([{\"registrar\":\"1.1.1.1\",\"value\":[\"exampletext\"]}])",
+                        "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -188,13 +188,17 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "registrar": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "1.1.1.1"
                 },
                 "value": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    }
+                    },
+                    "example": [
+                        "v=spf1 include:_spf.google.com ~all"
+                    ]
                 }
             }
         }

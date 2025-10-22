@@ -149,7 +149,7 @@ func getNSRecordForAddress(c *gin.Context) {
 // @Summary get TXT records for given domain
 // @Param domain query string true "valid (sub)domain to query" minlength(4)
 // @Produce json
-// @Success 200 {array} structs.TxtResult "OK" example([{"registrar":"1.1.1.1","value":["exampletext"]}])
+// @Success 200 {array} structs.TxtResult
 func getTXTRecordForAddress(c *gin.Context) {
 	returnCode := http.StatusOK
 	var results []structs.TxtResult
@@ -157,7 +157,7 @@ func getTXTRecordForAddress(c *gin.Context) {
 	params := c.MustGet("params").(structs.QueryParams)
 
 	for _, registrar := range domainList {
-		array := commands.ExecuteNSRecordQuery(registrar, params.Address)
+		array := commands.ExecuteTXTRecordQuery(registrar, params.Address)
 
 		results = append(results, structs.TxtResult{
 			Registrar: registrar,
