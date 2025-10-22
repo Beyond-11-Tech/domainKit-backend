@@ -57,3 +57,15 @@ func ExecuteNSRecordQuery(registrar, domain string) []string {
 
 	return results
 }
+
+
+func ExecuteTXTRecordQuery(registrar, domain string) []string {
+	var results []string
+	var buf bytes.Buffer
+
+	buf, _ = executeDigQuery(registrar, domain, "TXT")
+
+	results = strings.Fields(buf.String())
+
+	return results
+}

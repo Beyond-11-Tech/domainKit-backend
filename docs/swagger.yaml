@@ -12,6 +12,15 @@ definitions:
         example: 1.1.1.1
         type: string
     type: object
+  structs.TxtResult:
+    properties:
+      registrar:
+        type: string
+      value:
+        items:
+          type: string
+        type: array
+    type: object
 info:
   contact: {}
 paths:
@@ -79,7 +88,32 @@ paths:
             items:
               $ref: '#/definitions/structs.DomainResult'
             type: array
+      security:
+      - BearerAuth: []
       summary: get NS records for given domain
+      tags:
+      - Domains
+  /domain/txt:
+    get:
+      parameters:
+      - description: valid (sub)domain to query
+        in: query
+        minLength: 4
+        name: domain
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK" example([{"registrar":"1.1.1.1","value":["exampletext"]}])
+          schema:
+            items:
+              $ref: '#/definitions/structs.TxtResult'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: get TXT records for given domain
       tags:
       - Domains
 securityDefinitions:

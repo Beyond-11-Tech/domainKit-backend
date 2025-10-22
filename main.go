@@ -1,3 +1,4 @@
+//go:generate swag init
 package main
 
 import (
@@ -31,9 +32,6 @@ func init() {
 	if systemFlags.webKey == "" || systemFlags.appKey == "" {
 		panic("missing required flags, please add 'appKey' and 'webKey' and run again")
 	}
-	//go:generate swag init
-	//go:generate ./...
-
 }
 
 // @securityDefinitions.apikey BearerAuth
@@ -60,7 +58,7 @@ func main() {
 	domain.GET("/aaaa", getAAAARecordForAddress)
 	domain.GET("/ns", getNSRecordForAddress)
 	domain.GET("/srv", notAvailableYet)
-	domain.GET("/txt", notAvailableYet)
+	domain.GET("/txt", getTXTRecordForAddress)
 
 	endless.ListenAndServe(":8080", router)
 }
@@ -122,6 +120,7 @@ func getAAAARecordForAddress(c *gin.Context) {
 }
 
 // @Tags Domains
+// @Security BearerAuth
 // @Router /domain/ns [get]
 // @Summary get NS records for given domain
 // @Param domain query string true "valid (sub)domain to query" minlength(4)
@@ -139,6 +138,30 @@ func getNSRecordForAddress(c *gin.Context) {
 		results = append(results, structs.DomainResult{
 			Registrar: registrar,
 			Record:    array,
+		})
+	}
+	c.JSON(returnCode, results)
+}
+
+// @Tags Domains
+// @Security BearerAuth
+// @Router /domain/txt [get]
+// @Summary get TXT records for given domain
+// @Param domain query string true "valid (sub)domain to query" minlength(4)
+// @Produce json
+// @Success 200 {array} structs.TxtResult "OK" example([{"registrar":"1.1.1.1","value":["exampletext"]}])
+func getTXTRecordForAddress(c *gin.Context) {
+	returnCode := http.StatusOK
+	var results []structs.TxtResult
+
+	params := c.MustGet("params").(structs.QueryParams)
+
+	for _, registrar := range domainList {
+		array := commands.ExecuteNSRecordQuery(registrar, params.Address)
+
+		results = append(results, structs.TxtResult{
+			Registrar: registrar,
+			Value:     array,
 		})
 	}
 	c.JSON(returnCode, results)

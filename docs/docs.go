@@ -91,6 +91,11 @@ const docTemplate = `{
         },
         "/domain/ns": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -120,6 +125,43 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/domain/txt": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Domains"
+                ],
+                "summary": "get TXT records for given domain",
+                "parameters": [
+                    {
+                        "minLength": 4,
+                        "type": "string",
+                        "description": "valid (sub)domain to query",
+                        "name": "domain",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK\" example([{\"registrar\":\"1.1.1.1\",\"value\":[\"exampletext\"]}])",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/structs.TxtResult"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -139,6 +181,20 @@ const docTemplate = `{
                 "registrar": {
                     "type": "string",
                     "example": "1.1.1.1"
+                }
+            }
+        },
+        "structs.TxtResult": {
+            "type": "object",
+            "properties": {
+                "registrar": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         }
