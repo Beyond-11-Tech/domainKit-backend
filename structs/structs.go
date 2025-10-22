@@ -1,8 +1,7 @@
 package structs
 
-
 type QueryParams struct {
-	Address string `form:"address" binding:"required"`
+    Domain string `json:"domain" form:"domain" binding:"required"`
 }
 
 type DomainResult struct {

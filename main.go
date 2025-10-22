@@ -5,10 +5,10 @@ import (
 	"b11/domainKit/commands"
 	"b11/domainKit/middlewares"
 	"b11/domainKit/structs"
+	"b11/domainKit/docs"
 	"flag"
 	"net/http"
 
-	docs "b11/domainKit/docs"
 
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
@@ -85,7 +85,7 @@ func getARecordForAddress(c *gin.Context) {
 	params := c.MustGet("params").(structs.QueryParams)
 
 	for _, registrar := range domainList {
-		array := commands.ExecuteARecordQuery(registrar, params.Address)
+		array := commands.ExecuteARecordQuery(registrar, params.Domain)
 
 		results = append(results, structs.DomainResult{
 			Registrar: registrar,
@@ -109,7 +109,7 @@ func getAAAARecordForAddress(c *gin.Context) {
 	params := c.MustGet("params").(structs.QueryParams)
 
 	for _, registrar := range domainList {
-		array := commands.ExecuteAAAARecordQuery(registrar, params.Address)
+		array := commands.ExecuteAAAARecordQuery(registrar, params.Domain)
 
 		results = append(results, structs.DomainResult{
 			Registrar: registrar,
@@ -133,7 +133,7 @@ func getNSRecordForAddress(c *gin.Context) {
 	params := c.MustGet("params").(structs.QueryParams)
 
 	for _, registrar := range domainList {
-		array := commands.ExecuteNSRecordQuery(registrar, params.Address)
+		array := commands.ExecuteNSRecordQuery(registrar, params.Domain)
 
 		results = append(results, structs.DomainResult{
 			Registrar: registrar,
@@ -157,7 +157,7 @@ func getTXTRecordForAddress(c *gin.Context) {
 	params := c.MustGet("params").(structs.QueryParams)
 
 	for _, registrar := range domainList {
-		array := commands.ExecuteTXTRecordQuery(registrar, params.Address)
+		array := commands.ExecuteTXTRecordQuery(registrar, params.Domain)
 
 		results = append(results, structs.TxtResult{
 			Registrar: registrar,
